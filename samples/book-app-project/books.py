@@ -37,6 +37,16 @@ class BookCollection:
             json.dump([asdict(b) for b in self.books], f, indent=2)
 
     def add_book(self, title: str, author: str, year: int) -> Book:
+        title = (title or "").strip()
+        author = (author or "").strip()
+
+        if not title:
+            raise ValueError("Book title cannot be empty.")
+        if not author:
+            raise ValueError("Book author cannot be empty.")
+        if not isinstance(year, int) or year <= 0:
+            raise ValueError("Publication year must be a positive integer.")
+
         book = Book(title=title, author=author, year=year)
         self.books.append(book)
         self.save_books()
